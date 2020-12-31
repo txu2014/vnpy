@@ -119,7 +119,7 @@ OPTIONTYPE_UFT2VT: Dict[str, OptionType] = {
 }
 
 MAX_FLOAT = sys.float_info.max
-CHINA_TZ = pytz.timezone("Asia/Shanghai")
+UTC_TZ = pytz.timezone("UTC")
 
 symbol_name_map = {}
 symbol_size_map = {}
@@ -297,7 +297,7 @@ class UftMdApi(MdApi):
 
         timestamp = f"{data['TradingDay']} {data['UpdateTime']}000"
         dt = datetime.strptime(timestamp, "%Y%m%d %H%M%S%f")
-        dt = CHINA_TZ.localize(dt)
+        dt = UTC_TZ.localize(dt)
 
         tick = TickData(
             symbol=symbol,
@@ -675,7 +675,7 @@ class UftTdApi(TdApi):
         insert_time = generate_time(data["InsertTime"])
         timestamp = f"{data['InsertDate']} {insert_time}"
         dt = datetime.strptime(timestamp, "%Y%m%d %H:%M:%S")
-        dt = CHINA_TZ.localize(dt)
+        dt = UTC_TZ.localize(dt)
 
         if not order:
             order = OrderData(
@@ -727,7 +727,7 @@ class UftTdApi(TdApi):
         trade_time = generate_time(data["TradeTime"])
         timestamp = f"{data['TradeDate']} {trade_time}"
         dt = datetime.strptime(timestamp, "%H:%M:%S")
-        dt = CHINA_TZ.localize(dt)
+        dt = UTC_TZ.localize(dt)
 
         trade = TradeData(
             symbol=symbol,

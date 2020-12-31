@@ -99,7 +99,7 @@ OPTIONTYPE_FEMAS2VT = {
     USTP_FTDC_OT_PutOptions: OptionType.PUT,
 }
 
-CHINA_TZ = pytz.timezone("Asia/Shanghai")
+UTC_TZ = pytz.timezone("UTC")
 
 
 symbol_exchange_map = {}
@@ -278,7 +278,7 @@ class FemasMdApi(MdApi):
 
         timestamp = f"{data['TradingDay']} {data['UpdateTime']}.{int(data['UpdateMillisec'] / 100)}"
         dt = datetime.strptime(timestamp, "%Y%m%d %H:%M:%S.%f")
-        dt = CHINA_TZ.localize(dt)
+        dt = UTC_TZ.localize(dt)
 
         tick = TickData(
             symbol=symbol,
@@ -575,7 +575,7 @@ class FemasTdApi(TdApi):
         """
         timestamp = f"{data['InsertDate']} {data['InsertTime']}"
         dt = datetime.strptime(timestamp, "%Y%m%d %H:%M:%S")
-        dt = CHINA_TZ.localize(dt)
+        dt = UTC_TZ.localize(dt)
 
         order = OrderData(
             symbol=data["InstrumentID"],
@@ -606,7 +606,7 @@ class FemasTdApi(TdApi):
 
         timestamp = f"{data['TradeDate']} {data['TradeTime']}"
         dt = datetime.strptime(timestamp, "%Y%m%d %H:%M:%S")
-        dt = CHINA_TZ.localize(dt)
+        dt = UTC_TZ.localize(dt)
 
         trade = TradeData(
             symbol=data["InstrumentID"],

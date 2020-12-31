@@ -127,7 +127,7 @@ OPTIONTYPE_SGIT2VT: Dict[str, OptionType] = {
 }
 
 MAX_FLOAT: float = sys.float_info.max
-CHINA_TZ = pytz.timezone("Asia/Shanghai")
+UTC_TZ = pytz.timezone("UTC")
 
 symbol_exchange_map: Dict = {}
 symbol_name_map: Dict = {}
@@ -298,7 +298,7 @@ class SgitMdApi(MdApi):
 
         timestamp = f"{data['TradingDay']} {data['UpdateTime']}.{int(data['UpdateMillisec']/100)}"
         dt = datetime.strptime(timestamp, "%Y%m%d %H:%M:%S.%f")
-        dt = CHINA_TZ.localize(dt)
+        dt = UTC_TZ.localize(dt)
 
         tick = TickData(
             symbol=symbol,
@@ -647,7 +647,7 @@ class SgitTdApi(TdApi):
 
         timestamp = f"{data['InsertDate']} {data['InsertTime']}"
         dt = datetime.strptime(timestamp, "%Y%m%d %H:%M:%S")
-        dt = CHINA_TZ.localize(dt)
+        dt = UTC_TZ.localize(dt)
 
         order = OrderData(
             symbol=symbol,
@@ -681,7 +681,7 @@ class SgitTdApi(TdApi):
 
         timestamp = f"{data['TradeDate']} {data['TradeTime']}"
         dt = datetime.strptime(timestamp, "%Y%m%d %H:%M:%S")
-        dt = CHINA_TZ.localize(dt)
+        dt = UTC_TZ.localize(dt)
 
         trade = TradeData(
             symbol=symbol,

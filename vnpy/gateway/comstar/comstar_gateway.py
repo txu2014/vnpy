@@ -35,7 +35,7 @@ VN_ENUMS = {
     "Status": Status
 }
 
-CHINA_TZ = pytz.timezone("Asia/Shanghai")
+UTC_TZ = pytz.timezone("UTC")
 
 
 class ComstarGateway(BaseGateway):
@@ -356,7 +356,7 @@ def parse_datetime(s: str) -> datetime:
     else:
         dt = datetime.now()
 
-    dt = CHINA_TZ.localize(dt)
+    dt = UTC_TZ.localize(dt)
     return dt
 
 

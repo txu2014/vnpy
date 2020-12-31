@@ -57,7 +57,7 @@ EXCHANGE_VT2ONETOKEN = {
     Exchange.GATEIO: "gateio",
 }
 
-CHINA_TZ = pytz.timezone("Asia/Shanghai")
+UTC_TZ = pytz.timezone("UTC")
 
 # EXCHANGE_ONETOKEN2VT = {v: k for k, v in EXCHANGE_VT2ONETOKEN.items()}
 
@@ -235,7 +235,7 @@ class OnetokenRestApi(RestClient):
         self.exchange = exchange
         self.account = account
 
-        self.connect_time = int(datetime.now(CHINA_TZ).strftime("%y%m%d%H%M%S")) * self.order_count
+        self.connect_time = int(datetime.now(UTC_TZ).strftime("%y%m%d%H%M%S")) * self.order_count
 
         self.init(REST_HOST, proxy_host, proxy_port)
 
@@ -420,7 +420,7 @@ class OnetokenDataWebsocketApi(WebsocketClient):
             symbol=req.symbol,
             exchange=req.exchange,
             name=req.symbol,
-            datetime=datetime.now(CHINA_TZ),
+            datetime=datetime.now(UTC_TZ),
             gateway_name=self.gateway_name,
         )
 
@@ -726,5 +726,5 @@ class OnetokenTradeWebsocketApi(WebsocketClient):
 
 def generate_datetime(timestamp: str) -> datetime:
     dt = datetime.strptime(timestamp, "%Y-%m-%dT%H:%M:%S.%f")
-    dt = CHINA_TZ.localize(dt)
+    dt = UTC_TZ.localize(dt)
     return dt

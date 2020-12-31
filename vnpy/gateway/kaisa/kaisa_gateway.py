@@ -92,7 +92,7 @@ EXCHANGE_KAISA2VT: Dict[str, Exchange] = {
 }
 EXCHANGE_VT2KAISA = {v: k for k, v in EXCHANGE_KAISA2VT.items()}
 
-CHINA_TZ = pytz.timezone("Asia/Shanghai")
+UTC_TZ = pytz.timezone("UTC")
 
 symbol_name_map = {}
 
@@ -388,7 +388,7 @@ class KaisaTradeRestApi(RestClient):
             local_orderid,
             self.gateway_name
         )
-        order.datetime = datetime.now(CHINA_TZ)
+        order.datetime = datetime.now(UTC_TZ)
 
         data = {
             "channelType": "I",
@@ -901,5 +901,5 @@ def generate_datetime(timestamp: str) -> datetime:
     else:
         dt = datetime.strptime(timestamp, "%Y-%m-%d %H:%M:%S")
 
-    dt = CHINA_TZ.localize(dt)
+    dt = UTC_TZ.localize(dt)
     return dt

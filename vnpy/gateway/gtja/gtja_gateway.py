@@ -53,7 +53,7 @@ from.terminal_info import get_terminal_info
 
 
 MAX_FLOAT = sys.float_info.max
-CHINA_TZ = pytz.timezone("Asia/Shanghai")
+UTC_TZ = pytz.timezone("UTC")
 
 MK_GTJA2VT: Dict[int, Exchange] = {
     MKtype_SH: Exchange.SSE,
@@ -295,7 +295,7 @@ class GtjaMdApi(MdApi):
         """"""
         timestamp = f"{self.date}{str(data['nTime'])}"
         dt = datetime.strptime(timestamp, "%Y%m%d%H%M%S%f")
-        dt = CHINA_TZ.localize(dt)
+        dt = UTC_TZ.localize(dt)
 
         tick = TickData(
             symbol=symbol,
@@ -483,7 +483,7 @@ class GtjaTdApi(TdApi):
             orderid = self._new_orderid()
 
         dt = datetime.strptime(dt, "%Y%m%d %H%M%S%f")
-        dt = CHINA_TZ.localize(dt)
+        dt = UTC_TZ.localize(dt)
 
         trade = TradeData(
             tradeid=data["report_no"],
@@ -524,7 +524,7 @@ class GtjaTdApi(TdApi):
 
             order.status = Status.REJECTED
             dt = datetime.now()
-            dt = CHINA_TZ.localize(dt)
+            dt = UTC_TZ.localize(dt)
             order.datetime = dt
             self.gateway.on_order(order)
         else:
@@ -595,7 +595,7 @@ class GtjaTdApi(TdApi):
 
             dt = f"{data['order_date']} {data['order_time']}"
             dt = datetime.strptime(dt, "%Y%m%d %H%M%S%f")
-            dt = CHINA_TZ.localize(dt)
+            dt = UTC_TZ.localize(dt)
 
             order = OrderData(
                 orderid=orderid,
@@ -633,7 +633,7 @@ class GtjaTdApi(TdApi):
 
             dt = f"{data['trade_date']} {data['trade_time']}"
             dt = datetime.strptime(dt, "%Y%m%d %H%M%S%f")
-            dt = CHINA_TZ.localize(dt)
+            dt = UTC_TZ.localize(dt)
 
             trade = TradeData(
                 tradeid=data["report_no"],

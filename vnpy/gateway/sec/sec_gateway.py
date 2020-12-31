@@ -102,7 +102,7 @@ OPTION_TYPE_SEC2VT = {
     DFITCSEC_OT_PUT: OptionType.PUT
 }
 
-CHINA_TZ = pytz.timezone("Asia/Shanghai")
+UTC_TZ = pytz.timezone("UTC")
 
 symbol_name_map: Dict[str, str] = {}
 
@@ -304,7 +304,7 @@ class SecMdApi(MdApi):
         """"""
         timestamp = str(data["tradingDay"]) + str(data["updateTime"])
         dt = datetime.strptime(timestamp, "%Y%m%d%H:%M:%S.%f")
-        dt = CHINA_TZ.localize(dt)
+        dt = UTC_TZ.localize(dt)
 
         tick = TickData(
             symbol=data["securityID"],
@@ -351,7 +351,7 @@ class SecMdApi(MdApi):
         """"""
         timestamp = str(data["tradingDay"]) + str(data["updateTime"])
         dt = datetime.strptime(timestamp, "%Y%m%d%H:%M:%S.%f")
-        dt = CHINA_TZ.localize(dt)
+        dt = UTC_TZ.localize(dt)
 
         tick = TickData(
             symbol=data["securityID"],
@@ -566,7 +566,7 @@ class SecTdApi(TdApi):
         else:
             timestamp = self.trading_day + str(data["entrustTime"])
             dt = datetime.strptime(timestamp, "%Y%m%d%H:%M:%S.%f")
-            dt = CHINA_TZ.localize(dt)
+            dt = UTC_TZ.localize(dt)
             order = OrderData(
                 symbol=data["securityID"],
                 exchange=EXCHANGE_SEC2VT[data["exchangeID"]],
@@ -599,7 +599,7 @@ class SecTdApi(TdApi):
         else:
             timestamp = self.trading_day + str(data["entrustTime"])
             dt = datetime.strptime(timestamp, "%Y%m%d%H:%M:%S.%f")
-            dt = CHINA_TZ.localize(dt)
+            dt = UTC_TZ.localize(dt)
 
             order = OrderData(
                 symbol=data["securityID"],
@@ -632,7 +632,7 @@ class SecTdApi(TdApi):
         localid = str(data["localOrderID"])
         sessionid = str(data["sessionID"])
         orderid = f"{sessionid}_{localid}"
-        dt = CHINA_TZ.localize(dt)
+        dt = UTC_TZ.localize(dt)
         trade = TradeData(
             symbol=data["securityID"],
             exchange=EXCHANGE_SEC2VT[data["exchangeID"]],
@@ -683,7 +683,7 @@ class SecTdApi(TdApi):
         # Update Trade info
         timestamp = self.trading_day + str(data["tradeTime"])
         dt = datetime.strptime(timestamp, "%Y%m%d%H:%M:%S.%f")
-        dt = CHINA_TZ.localize(dt)
+        dt = UTC_TZ.localize(dt)
         localid = str(data["localOrderID"])
         sessionid = str(data["sessionID"])
         orderid = f"{sessionid}_{localid}"
@@ -742,12 +742,12 @@ class SecTdApi(TdApi):
         if orderid in self.orders:
             order = self.orders[orderid]
             dt = datetime.now()
-            dt = CHINA_TZ.localize(dt)
+            dt = UTC_TZ.localize(dt)
             order.datetime = dt
         else:
             timestamp = self.trading_day + str(data["entrustTime"])
             dt = datetime.strptime(timestamp, "%Y%m%d%H:%M:%S.%f")
-            dt = CHINA_TZ.localize(dt)
+            dt = UTC_TZ.localize(dt)
             order = OrderData(
                 symbol=data["securityID"],
                 exchange=EXCHANGE_SEC2VT[data["exchangeID"]],
@@ -777,7 +777,7 @@ class SecTdApi(TdApi):
         else:
             timestamp = self.trading_day + str(data["entrustTime"])
             dt = datetime.strptime(timestamp, "%Y%m%d%H:%M:%S.%f")
-            dt = CHINA_TZ.localize(dt)
+            dt = UTC_TZ.localize(dt)
             order = OrderData(
                 symbol=data["securityID"],
                 exchange=EXCHANGE_SEC2VT[data["exchangeID"]],
@@ -807,7 +807,7 @@ class SecTdApi(TdApi):
 
             if order:
                 dt = datetime.now()
-                dt = CHINA_TZ.localize(dt)
+                dt = UTC_TZ.localize(dt)
                 order.datetime = dt
                 order.status = Status.REJECTED
                 self.gateway.on_order(order)
@@ -824,7 +824,7 @@ class SecTdApi(TdApi):
 
             if order:
                 dt = datetime.now()
-                dt = CHINA_TZ.localize(dt)
+                dt = UTC_TZ.localize(dt)
                 order.datetime = dt
                 order.status = Status.REJECTED
                 self.gateway.on_order(order)

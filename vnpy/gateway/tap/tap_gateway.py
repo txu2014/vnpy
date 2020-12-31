@@ -99,7 +99,7 @@ FLAG_VT2TAP: Dict[str, str] = {
     "TAPI_CALLPUT_FLAG_NONE": "N"
 }
 
-CHINA_TZ = pytz.timezone("Asia/Shanghai")
+UTC_TZ = pytz.timezone("UTC")
 
 
 class TapGateway(BaseGateway):
@@ -901,7 +901,7 @@ def generate_datetime(timestamp: str) -> datetime:
     else:
         dt = datetime.strptime(timestamp, "%y%m%d%H%M%S.%f")
 
-    dt = CHINA_TZ.localize(dt)
+    dt = UTC_TZ.localize(dt)
     return dt
 
 

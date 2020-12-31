@@ -18,7 +18,7 @@ from .base import (
 )
 
 
-CHINA_TZ = pytz.timezone("Asia/Shanghai")
+UTC_TZ = pytz.timezone("UTC")
 
 EXCHANGE_VT2GNS = {
     Exchange.SSE: "SS",
@@ -220,7 +220,7 @@ class GenusParentApp(fix.Application):
 
         seconds = setting["time"]
         dt = datetime.now() + timedelta(seconds=seconds)
-        local_dt = CHINA_TZ.localize(dt)
+        local_dt = UTC_TZ.localize(dt)
         utc_dt = local_dt.astimezone(pytz.utc)
         utc_end = utc_dt.strftime("%Y%m%d-%H:%M:%S")
 

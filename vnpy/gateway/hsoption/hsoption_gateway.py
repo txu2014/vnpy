@@ -109,7 +109,7 @@ FUNCTION_CANCEL_ORDER = 338012
 ISSUE_ORDER = "33012"
 ISSUE_TRADE = "33011"
 
-CHINA_TZ = pytz.timezone("Asia/Shanghai")
+UTC_TZ = pytz.timezone("UTC")
 
 
 class HsoptionGateway(BaseGateway):
@@ -1100,5 +1100,5 @@ def generate_datetime(time: str) -> datetime:
     today = datetime.now().strftime("%Y%m%d")
     timestamp = f"{today} {time}"
     dt = datetime.strptime(timestamp, "%Y%m%d %H:%M:%S")
-    dt = CHINA_TZ.localize(dt)
+    dt = UTC_TZ.localize(dt)
     return dt

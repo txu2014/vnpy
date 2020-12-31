@@ -112,7 +112,7 @@ OPTIONTYPE_SOPT2VT = {
     THOST_FTDC_CP_PutOptions: OptionType.PUT
 }
 
-CHINA_TZ = pytz.timezone("Asia/Shanghai")
+UTC_TZ = pytz.timezone("UTC")
 
 symbol_exchange_map = {}
 symbol_name_map = {}
@@ -285,7 +285,7 @@ class SoptMdApi(MdApi):
             return
         timestamp = f"{data['TradingDay']} {data['UpdateTime']}.{int(data['UpdateMillisec']/100)}"
         dt = datetime.strptime(timestamp, "%Y%m%d %H:%M:%S.%f")
-        dt = CHINA_TZ.localize(dt)
+        dt = UTC_TZ.localize(dt)
 
         tick = TickData(
             symbol=symbol,
@@ -639,7 +639,7 @@ class SoptTdApi(TdApi):
 
         timestamp = f"{data['InsertDate']} {data['InsertTime']}"
         dt = datetime.strptime(timestamp, "%Y%m%d %H:%M:%S")
-        dt = CHINA_TZ.localize(dt)
+        dt = UTC_TZ.localize(dt)
 
         order = OrderData(
             symbol=symbol,
@@ -673,7 +673,7 @@ class SoptTdApi(TdApi):
 
         timestamp = f"{data['TradeDate']} {data['TradeTime']}"
         dt = datetime.strptime(timestamp, "%Y%m%d %H:%M:%S")
-        dt = CHINA_TZ.localize(dt)
+        dt = UTC_TZ.localize(dt)
 
         trade = TradeData(
             symbol=symbol,

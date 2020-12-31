@@ -101,7 +101,7 @@ OPTIONTYPE_DA2VT = {
     "F": OptionType.PUT
 }
 
-CHINA_TZ = pytz.timezone("Asia/Shanghai")
+UTC_TZ = pytz.timezone("UTC")
 
 symbol_name_map = {}
 symbol_currency_map = {}
@@ -191,7 +191,7 @@ class DaGateway(BaseGateway):
         reader = DictReader(StringIO(r.json()))
         for d in reader:
             dt = datetime.strptime(d["时间"], "%Y-%m-%d %H:%M")
-            dt = CHINA_TZ.localize(dt)
+            dt = UTC_TZ.localize(dt)
 
             bar = BarData(
                 symbol=req.symbol,
@@ -280,7 +280,7 @@ class DaMarketApi(MarketApi):
             return
 
         dt = datetime.strptime(data['Time'], "%Y-%m-%d %H:%M:%S")
-        dt = CHINA_TZ.localize(dt)
+        dt = UTC_TZ.localize(dt)
 
         tick = TickData(
             symbol=symbol,
@@ -466,7 +466,7 @@ class DaFutureApi(FutureApi):
         else:
             timestamp = f"{data['OrderDate']} {data['OrderTime']}"
             dt = datetime.strptime(timestamp, "%Y-%m-%d %H:%M:%S")
-            order.datetime = CHINA_TZ.localize(dt)
+            order.datetime = UTC_TZ.localize(dt)
 
             self.order_info[order.orderid] = (data["OrderNo"], data["SystemNo"])
 
@@ -538,7 +538,7 @@ class DaFutureApi(FutureApi):
         if data["TreatyCode"]:
             timestamp = f"{data['OrderDate']} {data['OrderTime']}"
             dt = datetime.strptime(timestamp, "%Y-%m-%d %H:%M:%S")
-            dt = CHINA_TZ.localize(dt)
+            dt = UTC_TZ.localize(dt)
 
             order = OrderData(
                 symbol=data["TreatyCode"],
@@ -578,7 +578,7 @@ class DaFutureApi(FutureApi):
         """"""
         timestamp = f"{data['FilledDate']} {data['FilledTime']}"
         dt = datetime.strptime(timestamp, "%Y-%m-%d %H:%M:%S")
-        dt = CHINA_TZ.localize(dt)
+        dt = UTC_TZ.localize(dt)
 
         trade = TradeData(
             symbol=data["TreatyCode"],

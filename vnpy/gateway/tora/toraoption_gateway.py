@@ -146,7 +146,7 @@ OPTIONTYPE_TORA2VT = {
     TORA_TSTP_SP_CP_PutOptions: OptionType.PUT
 }
 
-CHINA_TZ = pytz.timezone("Asia/Shanghai")
+UTC_TZ = pytz.timezone("UTC")
 
 
 class ToraOptionGateway(BaseGateway):
@@ -309,7 +309,7 @@ class ToraMdApi(spmdapi.CTORATstpSPMdSpi):
         dt = datetime.strptime(
             f'{current_date}-{current_time}', "%Y%m%d-%H:%M:%S"
         )
-        dt = CHINA_TZ.localize(dt)
+        dt = UTC_TZ.localize(dt)
 
         tick = TickData(
             symbol=data["SecurityID"],
@@ -503,7 +503,7 @@ class ToraTdApi(sptraderapi.CTORATstpSPTraderSpi):
 
         timestamp = f"{data['InsertDate']} {data['InsertTime']}"
         dt = datetime.strptime(timestamp, "%Y%m%d %H:%M:%S")
-        dt = CHINA_TZ.localize(dt)
+        dt = UTC_TZ.localize(dt)
 
         order = OrderData(
             symbol=symbol,
@@ -541,7 +541,7 @@ class ToraTdApi(sptraderapi.CTORATstpSPTraderSpi):
 
         timestamp = f"{data['TradeDate']} {data['TradeTime']}"
         dt = datetime.strptime(timestamp, "%Y%m%d %H:%M:%S")
-        dt = CHINA_TZ.localize(dt)
+        dt = UTC_TZ.localize(dt)
 
         trade = TradeData(
             symbol=symbol,
@@ -692,7 +692,7 @@ class ToraTdApi(sptraderapi.CTORATstpSPTraderSpi):
         order_ref = data["OrderRef"]
         order_id = f"{self.frontid}_{self.sessionid}_{order_ref}"
         dt = datetime.now()
-        dt = CHINA_TZ.localize(dt)
+        dt = UTC_TZ.localize(dt)
 
         order = OrderData(
             symbol=data["SecurityID"],
