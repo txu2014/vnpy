@@ -74,7 +74,7 @@ exg_mapping = {
     'huobif': 'huobi',
     'huobiswap': 'huobi',
     'binance': 'binance',
-    'binancef': 'binance',
+    'binanced': 'binance',
     'bitmex': 'bitmex',
     'gate': 'gateio',
 }
