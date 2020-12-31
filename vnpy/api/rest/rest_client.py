@@ -1,4 +1,4 @@
-import sys
+import sys, os
 import traceback
 from datetime import datetime
 from enum import Enum
@@ -8,6 +8,19 @@ from typing import Any, Callable, Optional, Union, Type
 from types import TracebackType
 
 import requests
+import logging
+from logging.handlers import TimedRotatingFileHandler
+logging.basicConfig(level=logging.INFO, format='%(asctime)s|%(levelname)s|%(name)s|%(message)s')
+ymd_now = datetime.now().strftime("%Y%M%d_%H%M%S")
+
+f_log = os.path.join(os.environ['DIR_DATA'], 'log', 'vn_debug')
+fh = TimedRotatingFileHandler(f_log, when='D', utc=True)
+fh.setLevel(logging.DEBUG)
+fh.setFormatter(logging.Formatter('%(asctime)s|%(levelname)s|%(name)s|%(message)s'))
+
+logger = logging.getLogger('vn_api')
+logger.setLevel("DEBUG")
+logger.addHandler(fh)
 
 
 CALLBACK_TYPE = Callable[[dict, "Request"], Any]
@@ -252,7 +265,7 @@ class RestClient(object):
             request = self.sign(request)
 
             url = self.make_full_url(request.path)
-
+            logger.info(url)
             response = session.request(
                 request.method,
                 url,
@@ -272,6 +285,7 @@ class RestClient(object):
                 request.callback(json_body, request)
                 request.status = RequestStatus.success
             else:
+                logger.info(request)
                 request.status = RequestStatus.failed
 
                 if request.on_failed:
