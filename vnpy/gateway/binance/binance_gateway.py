@@ -75,8 +75,8 @@ TIMEDELTA_MAP = {
     Interval.DAILY: timedelta(days=1),
 }
 
-UTC_TZ = pytz.timezone("UTC")
-UTC_TZ = pytz.timezone('UTC')
+CHINA_TZ = pytz.timezone("Asia/Shanghai")
+
 
 class Security(Enum):
     NONE = 0
@@ -250,7 +250,7 @@ class BinanceRestApi(RestClient):
         self.proxy_host = proxy_host
 
         self.connect_time = (
-            int(datetime.now(UTC_TZ).strftime("%y%m%d%H%M%S")) * self.order_count
+            int(datetime.now(CHINA_TZ).strftime("%y%m%d%H%M%S")) * self.order_count
         )
 
         self.init(REST_HOST, proxy_host, proxy_port)
@@ -718,7 +718,7 @@ class BinanceDataWebsocketApi(WebsocketClient):
             symbol=req.symbol,
             name=symbol_name_map.get(req.symbol, ""),
             exchange=Exchange.BINANCE,
-            datetime=datetime.now(UTC_TZ),
+            datetime=datetime.now(CHINA_TZ),
             gateway_name=self.gateway_name,
         )
         self.ticks[req.symbol] = tick
@@ -773,5 +773,5 @@ class BinanceDataWebsocketApi(WebsocketClient):
 def generate_datetime(timestamp: float) -> datetime:
     """"""
     dt = datetime.fromtimestamp(timestamp / 1000)
-    dt = UTC_TZ.localize(dt)
+    dt = CHINA_TZ.localize(dt)
     return dt

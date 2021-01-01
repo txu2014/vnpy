@@ -144,7 +144,7 @@ OPTIONTYPE_FUTURES2VT = {
 }
 
 MAX_FLOAT = sys.float_info.max
-UTC_TZ = pytz.timezone("UTC")
+CHINA_TZ = pytz.timezone("Asia/Shanghai")
 
 EXCHANGE_MD2VT = {
     "CFFEX": Exchange.CFFEX,
@@ -444,7 +444,7 @@ class NhMdApi(MdApi):
 
         timestamp = f"{self.current_date} {data['update_time']}.{int(data['update_millisec']/100)}"
         dt = datetime.strptime(timestamp, "%Y%m%d %H:%M:%S.%f")
-        dt = UTC_TZ.localize(dt)
+        dt = CHINA_TZ.localize(dt)
 
         tick = TickData(
             symbol=symbol,
@@ -781,7 +781,7 @@ class NhFuturesTdApi(FuturesTdApi):
 
         timestamp = f"{data['InsertDate']} {data['InsertTime']}"
         dt = datetime.strptime(timestamp, "%Y%m%d %H:%M:%S")
-        dt = UTC_TZ.localize(dt)
+        dt = CHINA_TZ.localize(dt)
 
         order = OrderData(
             symbol=symbol,
@@ -816,7 +816,7 @@ class NhFuturesTdApi(FuturesTdApi):
 
         timestamp = f"{data['TradeDate']} {data['TradeTime']}"
         dt = datetime.strptime(timestamp, "%Y%m%d %H:%M:%S")
-        dt = UTC_TZ.localize(dt)
+        dt = CHINA_TZ.localize(dt)
 
         trade = TradeData(
             symbol=symbol,
@@ -1489,7 +1489,7 @@ class NhStockTdApi(StockTdApi):
 
         timestamp = f"{self.today_date} {data['TransactTimeOnly']}"
         dt = datetime.strptime(timestamp, "%Y%m%d %H%M%S")
-        dt = UTC_TZ.localize(dt)
+        dt = CHINA_TZ.localize(dt)
 
         order_type = ORDERTYPE_STOCK2VT[(data["OrdType"], data["TimeInForce"])]
 
@@ -1529,7 +1529,7 @@ class NhStockTdApi(StockTdApi):
 
         timestamp = f"{self.today_date} {data['TransactTimeOnly']}"
         dt = datetime.strptime(timestamp, "%Y%m%d %H%M%S")
-        dt = UTC_TZ.localize(dt)
+        dt = CHINA_TZ.localize(dt)
 
         trade = TradeData(
             symbol=symbol,

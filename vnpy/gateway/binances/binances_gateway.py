@@ -92,7 +92,7 @@ TIMEDELTA_MAP: Dict[Interval, timedelta] = {
     Interval.DAILY: timedelta(days=1),
 }
 
-UTC_TZ = pytz.timezone("UTC")
+CHINA_TZ = pytz.timezone("Asia/Shanghai")
 
 
 class Security(Enum):
@@ -876,7 +876,7 @@ class BinancesDataWebsocketApi(WebsocketClient):
             symbol=req.symbol,
             name=symbol_name_map.get(req.symbol, ""),
             exchange=Exchange.BINANCE,
-            datetime=datetime.now(UTC_TZ),
+            datetime=datetime.now(CHINA_TZ),
             gateway_name=self.gateway_name,
         )
         self.ticks[req.symbol.lower()] = tick
@@ -939,5 +939,5 @@ class BinancesDataWebsocketApi(WebsocketClient):
 def generate_datetime(timestamp: float) -> datetime:
     """"""
     dt = datetime.fromtimestamp(timestamp / 1000)
-    dt = UTC_TZ.localize(dt)
+    dt = CHINA_TZ.localize(dt)
     return dt

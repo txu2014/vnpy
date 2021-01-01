@@ -120,7 +120,7 @@ OPTIONTYPE_XTP2VT = {
     2: OptionType.PUT
 }
 
-UTC_TZ = pytz.timezone("UTC")
+CHINA_TZ = pytz.timezone("Asia/Shanghai")
 
 symbol_name_map: Dict[str, str] = {}
 symbol_pricetick_map: Dict[str, float] = {}
@@ -265,7 +265,7 @@ class XtpMdApi(MdApi):
         """"""
         timestamp = str(data["data_time"])
         dt = datetime.strptime(timestamp, "%Y%m%d%H%M%S%f")
-        dt = UTC_TZ.localize(dt)
+        dt = CHINA_TZ.localize(dt)
 
         tick = TickData(
             symbol=data["ticker"],
@@ -530,7 +530,7 @@ class XtpTdApi(TdApi):
         if orderid not in self.orders:
             timestamp = str(data["insert_time"])
             dt = datetime.strptime(timestamp, "%Y%m%d%H%M%S%f")
-            dt = UTC_TZ.localize(dt)
+            dt = CHINA_TZ.localize(dt)
 
             order = OrderData(
                 symbol=symbol,
@@ -565,7 +565,7 @@ class XtpTdApi(TdApi):
 
         timestamp = str(data["trade_time"])
         dt = datetime.strptime(timestamp, "%Y%m%d%H%M%S%f")
-        dt = UTC_TZ.localize(dt)
+        dt = CHINA_TZ.localize(dt)
 
         trade = TradeData(
             symbol=symbol,

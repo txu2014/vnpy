@@ -105,7 +105,7 @@ OPTIONTYPE_HUOBIO2VT = {
     "P": OptionType.PUT
 }
 
-UTC_TZ = pytz.timezone("UTC")
+CHINA_TZ = pytz.timezone("Asia/Shanghai")
 
 
 class HuobioGateway(BaseGateway):
@@ -263,7 +263,7 @@ class HuobioRestApi(RestClient):
         self.key = key
         self.secret = secret
         self.host, _ = _split_url(REST_HOST)
-        self.connect_time = int(datetime.now(UTC_TZ).strftime("%y%m%d%H%M%S"))
+        self.connect_time = int(datetime.now(CHINA_TZ).strftime("%y%m%d%H%M%S"))
 
         self.init(REST_HOST, proxy_host, proxy_port)
         self.start(session_number)
@@ -401,7 +401,7 @@ class HuobioRestApi(RestClient):
             local_orderid,
             self.gateway_name
         )
-        order.datetime = datetime.now(UTC_TZ)
+        order.datetime = datetime.now(CHINA_TZ)
 
         data = {
             "contract_code": req.symbol,
@@ -439,7 +439,7 @@ class HuobioRestApi(RestClient):
                 local_orderid,
                 self.gateway_name
             )
-            order.datetime = datetime.now(UTC_TZ)
+            order.datetime = datetime.now(CHINA_TZ)
             self.gateway.on_order(order)
 
             d = {
@@ -985,7 +985,7 @@ class HuobioDataWebsocketApi(HuobioWebsocketApiBase):
             symbol=req.symbol,
             name=req.symbol,
             exchange=Exchange.HUOBI,
-            datetime=datetime.now(UTC_TZ),
+            datetime=datetime.now(CHINA_TZ),
             gateway_name=self.gateway_name,
         )
         self.ticks[req.symbol] = tick
@@ -1117,5 +1117,5 @@ def create_signature(
 def generate_datetime(timestamp: float) -> datetime:
     """"""
     dt = datetime.fromtimestamp(timestamp)
-    dt = UTC_TZ.localize(dt)
+    dt = CHINA_TZ.localize(dt)
     return dt

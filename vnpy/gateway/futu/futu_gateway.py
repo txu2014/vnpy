@@ -74,7 +74,7 @@ STATUS_FUTU2VT = {
     OrderStatus.DISABLED: Status.CANCELLED,
 }
 
-UTC_TZ = pytz.timezone("UTC")
+CHINA_TZ = pytz.timezone("Asia/Shanghai")
 
 
 class FutuGateway(BaseGateway):
@@ -397,7 +397,7 @@ class FutuGateway(BaseGateway):
             tick = TickData(
                 symbol=symbol,
                 exchange=exchange,
-                datetime=datetime.now(UTC_TZ),
+                datetime=datetime.now(CHINA_TZ),
                 gateway_name=self.gateway_name,
             )
             self.ticks[code] = tick
@@ -416,7 +416,7 @@ class FutuGateway(BaseGateway):
             date = row["data_date"].replace("-", "")
             time = row["data_time"]
             dt = datetime.strptime(f"{date} {time}", "%Y%m%d %H:%M:%S")
-            dt = UTC_TZ.localize(dt)
+            dt = CHINA_TZ.localize(dt)
 
             tick = self.get_tick(symbol)
             tick.datetime = dt
@@ -529,5 +529,5 @@ def generate_datetime(s: str) -> datetime:
     else:
         dt = datetime.strptime(s, "%Y-%m-%d %H:%M:%S")
 
-    dt = UTC_TZ.localize(dt)
+    dt = CHINA_TZ.localize(dt)
     return dt

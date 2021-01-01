@@ -74,7 +74,7 @@ OFFSET_KSGOLD2VT[48] = Offset.OPEN
 
 MAX_FLOAT = sys.float_info.max
 
-UTC_TZ = pytz.timezone("UTC")
+CHINA_TZ = pytz.timezone("Asia/Shanghai")
 
 symbol_exchange_map = {}
 symbol_name_map = {}
@@ -269,7 +269,7 @@ class KsgoldMdApi(MdApi):
 
         timestamp = f"{data['QuoteDate']} {data['QuoteTime']}.{int(data['UpdateMillisec']/100)}"
         dt = datetime.strptime(timestamp, "%Y%m%d %H:%M:%S.%f")
-        dt = UTC_TZ.localize(dt)
+        dt = CHINA_TZ.localize(dt)
 
         tick = TickData(
             symbol=symbol,
@@ -622,7 +622,7 @@ class KsgoldTdApi(TdApi):
         today = datetime.now().strftime("%Y%m%d")
         timestamp = f"{today} {data['EntrustTime']}"
         dt = datetime.strptime(timestamp, "%Y%m%d %H:%M:%S")
-        dt = UTC_TZ.localize(dt)
+        dt = CHINA_TZ.localize(dt)
 
         order = OrderData(
             symbol=symbol,
@@ -656,7 +656,7 @@ class KsgoldTdApi(TdApi):
         today = datetime.now().strftime("%Y%m%d")
         timestamp = f"{today} {data['MatchTime']}"
         dt = datetime.strptime(timestamp, "%Y%m%d %H:%M:%S")
-        dt = UTC_TZ.localize(dt)
+        dt = CHINA_TZ.localize(dt)
 
         trade = TradeData(
             symbol=symbol,

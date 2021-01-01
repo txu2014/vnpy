@@ -86,7 +86,7 @@ TESTNET_INVERSE_WEBSOCKET_HOST = "wss://stream-testnet.bybit.com/realtime"
 TESTNET_PUBLIC_WEBSOCKET_HOST = "wss://stream-testnet.bybit.com/realtime_public"
 TESTNET_PRIVATE_WEBSOCKET_HOST = "wss://stream-testnet.bybit.com/realtime_private"
 
-UTC_TZ = pytz.timezone("UTC")
+CHINA_TZ = pytz.timezone("Asia/Shanghai")
 UTC_TZ = pytz.utc
 
 symbols_usdt: List[str] = ["BTCUSDT"]
@@ -655,7 +655,7 @@ class BybitRestApi(RestClient):
                 buf = []
                 for d in data["result"]:
                     dt = datetime.fromtimestamp(d["open_time"])
-                    dt = UTC_TZ.localize(dt)
+                    dt = CHINA_TZ.localize(dt)
 
                     bar = BarData(
                         symbol=req.symbol,

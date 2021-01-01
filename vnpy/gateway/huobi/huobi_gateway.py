@@ -67,7 +67,7 @@ INTERVAL_VT2HUOBI = {
     Interval.DAILY: "1day"
 }
 
-UTC_TZ = pytz.timezone("UTC")
+CHINA_TZ = pytz.timezone("Asia/Shanghai")
 
 huobi_symbols: set = set()
 symbol_name_map: Dict[str, str] = {}
@@ -321,7 +321,7 @@ class HuobiRestApi(RestClient):
 
         orderid = self.new_orderid()
         order = req.create_order_data(orderid, self.gateway_name)
-        order.datetime = datetime.now(UTC_TZ)
+        order.datetime = datetime.now(CHINA_TZ)
 
         data = {
             "account-id": self.account_id,
@@ -733,7 +733,7 @@ class HuobiTradeWebsocketApi(HuobiWebsocketApiBase):
             direction=order.direction,
             price=float(data["tradePrice"]),
             volume=float(data["tradeVolume"]),
-            datetime=datetime.now(UTC_TZ),
+            datetime=datetime.now(CHINA_TZ),
             gateway_name=self.gateway_name,
         )
         self.gateway.on_trade(trade)
@@ -784,7 +784,7 @@ class HuobiDataWebsocketApi(HuobiWebsocketApiBase):
             symbol=symbol,
             name=symbol_name_map.get(symbol, ""),
             exchange=Exchange.HUOBI,
-            datetime=datetime.now(UTC_TZ),
+            datetime=datetime.now(CHINA_TZ),
             gateway_name=self.gateway_name,
         )
         self.ticks[symbol] = tick
@@ -948,5 +948,5 @@ def create_signature_v2(
 def generate_datetime(timestamp: float) -> datetime:
     """"""
     dt = datetime.fromtimestamp(timestamp)
-    dt = UTC_TZ.localize(dt)
+    dt = CHINA_TZ.localize(dt)
     return dt

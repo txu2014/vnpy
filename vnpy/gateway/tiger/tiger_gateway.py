@@ -74,7 +74,7 @@ STATUS_TIGER2VT = {
     OrderStatus.EXPIRED: Status.NOTTRADED
 }
 
-UTC_TZ = pytz.timezone("UTC")
+CHINA_TZ = pytz.timezone("Asia/Shanghai")
 
 
 class TigerGateway(BaseGateway):
@@ -239,7 +239,7 @@ class TigerGateway(BaseGateway):
                 symbol=symbol,
                 exchange=exchange,
                 gateway_name=self.gateway_name,
-                datetime=datetime.now(UTC_TZ),
+                datetime=datetime.now(CHINA_TZ),
                 name=self.symbol_names[symbol],
             )
             self.ticks[symbol] = tick
@@ -296,7 +296,7 @@ class TigerGateway(BaseGateway):
         status = STATUS_TIGER2VT[data["status"]]
 
         dt = datetime.fromtimestamp(data["order_time"] / 1000)
-        dt = UTC_TZ.localize(dt)
+        dt = CHINA_TZ.localize(dt)
 
         order = OrderData(
             symbol=symbol,
@@ -316,7 +316,7 @@ class TigerGateway(BaseGateway):
 
         if status == Status.ALLTRADED:
             dt = datetime.fromtimestamp(data["trade_time"] / 1000)
-            dt = UTC_TZ.localize(dt)
+            dt = CHINA_TZ.localize(dt)
 
             self.tradeid += 1
 
@@ -532,7 +532,7 @@ class TigerGateway(BaseGateway):
             local_id = self.get_new_local_id()
 
             dt = datetime.fromtimestamp(i.order_time / 1000)
-            dt = UTC_TZ.localize(dt)
+            dt = CHINA_TZ.localize(dt)
 
             order = OrderData(
                 symbol=symbol,
@@ -561,7 +561,7 @@ class TigerGateway(BaseGateway):
                 self.tradeid += 1
 
                 dt = datetime.fromtimestamp(i.trade_time / 1000)
-                dt = UTC_TZ.localize(dt)
+                dt = CHINA_TZ.localize(dt)
 
                 trade = TradeData(
                     symbol=symbol,

@@ -25,7 +25,7 @@ INTERVAL_ADJUSTMENT_MAP = {
     Interval.DAILY: timedelta()         # no need to adjust for daily bar
 }
 
-UTC_TZ = timezone("UTC")
+CHINA_TZ = timezone("Asia/Shanghai")
 
 
 class RqdataClient:
@@ -179,7 +179,7 @@ class RqdataClient:
         if df is not None:
             for ix, row in df.iterrows():
                 dt = row.name.to_pydatetime() - adjustment
-                dt = UTC_TZ.localize(dt)
+                dt = CHINA_TZ.localize(dt)
 
                 bar = BarData(
                     symbol=symbol,
@@ -266,7 +266,7 @@ class RqdataClient:
         if df is not None:
             for ix, row in df.iterrows():
                 dt = row.name.to_pydatetime()
-                dt = UTC_TZ.localize(dt)
+                dt = CHINA_TZ.localize(dt)
 
                 tick = TickData(
                     symbol=symbol,
