@@ -123,7 +123,7 @@ def round_to(value: float, target: float) -> float:
     """
     value = Decimal(str(value))
     target = Decimal(str(target))
-    rounded = float(int(round(value / target)) * target)
+    rounded = float(int(round(value / target)) * target) if target != 0 else 0
     return rounded
 
 
