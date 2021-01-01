@@ -320,7 +320,7 @@ class BinanceRestApi(RestClient):
 
     def send_order(self, req: OrderRequest):
         """"""
-        orderid = "NKD8FYX4-" + str(self.connect_time + self._new_order_id())
+        orderid = "BINANCE-SPOT-" + str(self.connect_time + self._new_order_id())
         order = req.create_order_data(
             orderid,
             self.gateway_name
@@ -337,7 +337,7 @@ class BinanceRestApi(RestClient):
             "side": DIRECTION_VT2BINANCE[req.direction],
             "type": ORDERTYPE_VT2BINANCE[req.type],
             "price": str(req.price),
-            "quantity": str(req.volume),
+            "quantity": str(abs(req.volume)),
             "newClientOrderId": orderid,
             "newOrderRespType": "ACK"
         }
